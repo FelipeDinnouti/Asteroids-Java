@@ -1,3 +1,4 @@
 public class WorldContext {
-    public Player player;
+    public Entity player;
+    public float delta_time = 0.016f;
 }
