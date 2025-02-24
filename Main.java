@@ -17,11 +17,16 @@ public class Main {
 
         world.player.position = world.player.position.plus(world.player.velocity.mult(world.delta_time));
         
-        if (world.input_handler.k_pressed == true) {
+        if (world.input_handler.k_pressed == true) { // Align camera (debug)
             world.camera_position = world.camera_position.lerp(world.player.position, 3.0f*world.delta_time);
         }
-        world.camera_position.print();
-    
+        if ((world.shoot_timer.current_time==0.0f) && (world.input_handler.j_pressed == true)) {
+            world.shoot_timer.Fire();
+            System.out.println("shoot");
+        }
+
+        // Update timers
+        world.shoot_timer.Update(world.delta_time);
     }
 
     public static void main(String[] args) throws InterruptedException {

@@ -44,7 +44,7 @@ public class MyFrame extends Frame {
             y[i] = (int) transformed.y;
         }
 
-        g.setColor(Color.black);
+        g.setColor(Color.black); 
         g.drawPolygon(x, y, world.player.vertices.length); 
         g.fillPolygon(x,y, world.player.vertices.length);
     } 
