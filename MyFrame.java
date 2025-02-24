@@ -28,6 +28,9 @@ public class MyFrame extends Frame {
     }
     public void paint(Graphics g) 
     { 
+        Rectangle bounds = getBounds();
+        Vector window_center = new Vector(bounds.width, bounds.height).divide(2);
+        
         int[] x = new int[world.player.vertices.length];
         int[] y = new int[world.player.vertices.length];
 
@@ -35,8 +38,10 @@ public class MyFrame extends Frame {
             // Apply rotation and offset to model
             Vector transformed = world.player.vertices[i].rotate(world.player.rotation).plus(world.player.position);
             
-            x[i] = transformed.x;
-            y[i] = transformed.y;
+            transformed = transformed.minus(world.camera_position).plus(window_center);
+
+            x[i] = (int) transformed.x;
+            y[i] = (int) transformed.y;
         }
 
         g.setColor(Color.black);
