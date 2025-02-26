@@ -11,7 +11,7 @@ public class WorldContext {
     public Timer shoot_timer = new Timer(0.1f);
 
     public WorldContext() {
-        bullets = new Bullet[16]; // More than 64 bullets and it explodes
+        bullets = new Bullet[16]; // More than n bullets and it explodes
         bullet_count = 0;
     }
 }

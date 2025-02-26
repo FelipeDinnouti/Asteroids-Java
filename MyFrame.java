@@ -55,6 +55,9 @@ public class MyFrame extends Frame {
 
             if (b==null) continue;
 
+            // .minus(world.camera_position).plus(window_center) 
+            // This line transforms a vector in global position to local screen position
+
             Vector direction = new Vector(0,1).rotate(b.rotation).mult(b.length).plus(b.position).minus(world.camera_position).plus(window_center);
             Vector transformed_position = b.position.minus(world.camera_position).plus(window_center);
             

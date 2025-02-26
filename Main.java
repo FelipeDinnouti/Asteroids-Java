@@ -1,7 +1,10 @@
 public class Main {
+    static int debug_bullet_id = 0;
+
     public static void update(WorldContext world) {
         Vector player_direction = new Vector(0,1).rotate(world.player.rotation);
 
+        // Movement logic
         if (world.input_handler.w_pressed == true) {
             world.player.velocity = world.player.velocity.plus(player_direction.mult(10.0f));
         } else
@@ -20,32 +23,49 @@ public class Main {
         if (world.input_handler.k_pressed == true) { // Align camera (debug)
             world.camera_position = world.camera_position.lerp(world.player.position, 3.0f*world.delta_time);
         }
+
         if ((world.shoot_timer.current_time==0.0f) && (world.input_handler.j_pressed == true)) {
+            // Start the timer again
             world.shoot_timer.Fire();
+
+            // Create the bullet
             Bullet bullet = new Bullet(new Vector(world.player.position), world.player.rotation, 0, false);
+
+            // Bullet count is a bad name because it doesn't count bullets,
+            // I use it to know what is the first null spot where a bullet could go.
             world.bullets[world.bullet_count] = bullet; 
             world.bullet_count += 1;
-            System.out.println("Atirado: " + world.bullet_count);
         }
 
         // Update bullets
-        for (int i = 0; i<world.bullet_count; i++) {
+        for (int i = 0; i<world.bullet_count+1; i++) {
             Bullet b = world.bullets[i];
             if (b == null) continue;
 
+            // Decreasing the lifetime of the bullet
             b.lifetime -= world.delta_time;
 
             // Delete bullet and fill the hole
             if (b.lifetime < 0) {
                 if (i==world.bullet_count) {
+                    // Delete the bullet because it is alreay in the right-most part of the array 
                     world.bullets[i] = null;
                 } else {
-                    world.bullets[i] = world.bullets[world.bullet_count];
+                    // Get the bullet in the right-most part of the array to fill the hole
+                    world.bullets[i] = world.bullets[world.bullet_count-1]; 
+                    world.bullets[world.bullet_count] = null;
                 }
-                world.bullet_count -= 1;
+
+                // Doesn't let bullet count be negative
+                if (world.bullet_count > 0) {
+                    world.bullet_count -= 1;
+                }
+
+                // Doesn't update the bullet
                 continue;
             }
 
+            // I love java: adds to the position the direction vector multiplied by velocity
             b.position = b.position.plus(new Vector(0,1).rotate(b.rotation).mult(500.0f*world.delta_time));
         }
 

@@ -15,4 +15,7 @@ public class Bullet extends Entity {
 
         lifetime = 0.5f;
     }
+    public String toString() {
+        return String.format("Bullet {lifetime: %f}", lifetime);
+    }
 }
