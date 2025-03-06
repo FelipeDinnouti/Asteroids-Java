@@ -8,6 +8,7 @@ public class InputHandler implements KeyListener {
     public boolean d_pressed = false;
 
     public boolean j_pressed = false;
+    public boolean h_pressed = false;
     public boolean k_pressed = false;
 
     public InputHandler() {
@@ -23,6 +24,8 @@ public class InputHandler implements KeyListener {
             s_pressed = true;
         } else if (e.getKeyCode() == 68) { // D
             d_pressed = true;
+        } else if (e.getKeyCode() == 72) { // H
+            h_pressed = true;
         } else if (e.getKeyCode() == 74) { // J
             j_pressed = true;
         } else if (e.getKeyCode() == 75) { // K
@@ -38,6 +41,8 @@ public class InputHandler implements KeyListener {
             s_pressed = false;
         } else if (e.getKeyCode() == 68) { // D
             d_pressed = false;
+        } else if (e.getKeyCode() == 72) { // H
+            h_pressed = false;
         } else if (e.getKeyCode() == 74) { // J
             j_pressed = false;
         } else if (e.getKeyCode() == 75) { // K

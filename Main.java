@@ -33,11 +33,34 @@ public class Main {
 
             // Bullet count is a bad name because it doesn't count bullets,
             // I use it to know what is the first null spot where a bullet could go.
-            world.bullets[world.bullet_count] = bullet; 
+            world.bullets[world.bullet_count] = bullet;
             world.bullet_count += 1;
 
             // Pushes the player back
             world.player.velocity = world.player.velocity.minus(player_direction.mult(8.0f));
+        }
+
+        if ((world.shotgun_timer.current_time==0.0f) && (world.input_handler.h_pressed == true)) {
+            // Start the timer again
+            world.shotgun_timer.Fire();
+
+            // Create the bullet
+            Bullet bullet1 = new Bullet(new Vector(world.player.position), world.player.rotation, 0, false);
+            Bullet bullet2 = new Bullet(new Vector(world.player.position), world.player.rotation - 0.2f, 0, false);
+            Bullet bullet3 = new Bullet(new Vector(world.player.position), world.player.rotation - 0.1f, 0, false);
+            Bullet bullet4 = new Bullet(new Vector(world.player.position), world.player.rotation + 0.1f, 0, false);
+            Bullet bullet5 = new Bullet(new Vector(world.player.position), world.player.rotation + 0.2f, 0, false);
+
+            // Bullet count is a bad name because it doesn't count bullets,
+            // I use it to know what is the first null spot where a bullet could go.
+            world.bullets[world.bullet_count++] = bullet1;
+            world.bullets[world.bullet_count++] = bullet2;
+            world.bullets[world.bullet_count++] = bullet3;
+            world.bullets[world.bullet_count++] = bullet4;
+            world.bullets[world.bullet_count++] = bullet5;
+
+            // Pushes the player back
+            world.player.velocity = world.player.velocity.minus(player_direction.mult(80.0f));
         }
 
         // Update bullets
@@ -75,6 +98,7 @@ public class Main {
 
         // Update timers
         world.shoot_timer.Update(world.delta_time);
+        world.shotgun_timer.Update(world.delta_time);
     }
 
     public static void main(String[] args) throws InterruptedException {

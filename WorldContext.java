@@ -8,10 +8,11 @@ public class WorldContext {
     public float delta_time = 0.016f;
 
     // Timers
-    public Timer shoot_timer = new Timer(0.1f);
+    public Timer shoot_timer   = new Timer(0.1f);
+    public Timer shotgun_timer = new Timer (5.0f);
 
     public WorldContext() {
-        bullets = new Bullet[16]; // More than n bullets and it explodes
+        bullets = new Bullet[32]; // More than n bullets and it explodes
         bullet_count = 0;
     }
 }
