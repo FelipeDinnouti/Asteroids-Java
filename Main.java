@@ -35,6 +35,9 @@ public class Main {
             // I use it to know what is the first null spot where a bullet could go.
             world.bullets[world.bullet_count] = bullet; 
             world.bullet_count += 1;
+
+            // Pushes the player back
+            world.player.velocity = world.player.velocity.minus(player_direction.mult(8.0f));
         }
 
         // Update bullets
