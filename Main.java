@@ -1,3 +1,13 @@
+
+import java.util.Arrays;
+
+import src.Bullet;
+import src.Entity;
+import src.InputHandler;
+import src.MyFrame;
+import src.Vector;
+import src.WorldContext;
+
 public class Main {
     static int debug_bullet_id = 0;
 
@@ -24,40 +34,25 @@ public class Main {
             world.camera_position = world.camera_position.lerp(world.player.position, 3.0f*world.delta_time);
         }
 
-        if ((world.shoot_timer.current_time==0.0f) && (world.input_handler.j_pressed == true)) {
+        if ((world.shoot_timer.GetCurrentTime() ==0.0f) && (world.input_handler.j_pressed == true)) {
             // Start the timer again
             world.shoot_timer.Fire();
 
-            // Create the bullet
-            Bullet bullet = new Bullet(new Vector(world.player.position), world.player.rotation, 0, false);
-
-            // Bullet count is a bad name because it doesn't count bullets,
-            // I use it to know what is the first null spot where a bullet could go.
-            world.bullets[world.bullet_count] = bullet;
-            world.bullet_count += 1;
+            world.CreateBullet(new Vector(world.player.position), world.player.rotation, 0, false);
 
             // Pushes the player back
             world.player.velocity = world.player.velocity.minus(player_direction.mult(8.0f));
         }
 
-        if ((world.shotgun_timer.current_time==0.0f) && (world.input_handler.h_pressed == true)) {
+        if ((world.shotgun_timer.GetCurrentTime() == 0.0f) && (world.input_handler.h_pressed == true)) {
             // Start the timer again
             world.shotgun_timer.Fire();
 
-            // Create the bullet
-            Bullet bullet1 = new Bullet(new Vector(world.player.position), world.player.rotation, 0, false);
-            Bullet bullet2 = new Bullet(new Vector(world.player.position), world.player.rotation - 0.2f, 0, false);
-            Bullet bullet3 = new Bullet(new Vector(world.player.position), world.player.rotation - 0.1f, 0, false);
-            Bullet bullet4 = new Bullet(new Vector(world.player.position), world.player.rotation + 0.1f, 0, false);
-            Bullet bullet5 = new Bullet(new Vector(world.player.position), world.player.rotation + 0.2f, 0, false);
-
-            // Bullet count is a bad name because it doesn't count bullets,
-            // I use it to know what is the first null spot where a bullet could go.
-            world.bullets[world.bullet_count++] = bullet1;
-            world.bullets[world.bullet_count++] = bullet2;
-            world.bullets[world.bullet_count++] = bullet3;
-            world.bullets[world.bullet_count++] = bullet4;
-            world.bullets[world.bullet_count++] = bullet5;
+            world.CreateBullet(new Vector(world.player.position), world.player.rotation, 0, false);
+            world.CreateBullet(new Vector(world.player.position), world.player.rotation - 0.2f, 0, false);
+            world.CreateBullet(new Vector(world.player.position), world.player.rotation - 0.1f, 0, false);
+            world.CreateBullet(new Vector(world.player.position), world.player.rotation + 0.1f, 0, false);
+            world.CreateBullet(new Vector(world.player.position), world.player.rotation + 0.2f, 0, false);
 
             // Pushes the player back
             world.player.velocity = world.player.velocity.minus(player_direction.mult(80.0f));
@@ -69,10 +64,10 @@ public class Main {
             if (b == null) continue;
 
             // Decreasing the lifetime of the bullet
-            b.lifetime -= world.delta_time;
+            b.DecreaseLifetime(world.delta_time); 
 
             // Delete bullet and fill the hole
-            if (b.lifetime < 0) {
+            if (b.GetLifetime() < 0) {
                 if (i==world.bullet_count) {
                     // Delete the bullet because it is alreay in the right-most part of the array 
                     world.bullets[i] = null;
@@ -117,10 +112,8 @@ public class Main {
         world.player.position.y = 0;
 
         // Test
-        Vector test = new Vector(5,5);
-        Vector rotated = test.rotate(3.57f);
-        System.out.print(rotated.x);
-        System.out.print(rotated.y);
+        world.CreateAsteroid(1, null);
+
 
         while (true) {
             update(world);

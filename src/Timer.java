@@ -1,9 +1,19 @@
+package src;
 public class Timer {
-    float duration = 0.0f;
-    float current_time = 0.0f;
+    private float duration = 0.0f;
+    private float current_time = 0.0f;
 
+    // Constructor
     public Timer(float duration) {
         this.duration = duration;
+    }
+
+    public float GetCurrentTime() {
+        return this.current_time;
+    }
+
+    public float GetDuration() {
+        return this.duration;
     }
 
     public void Update(float delta) {
@@ -13,6 +23,7 @@ public class Timer {
             current_time = 0.0f;
         }
     }
+
     public void Fire() {
         current_time = duration;
     }

@@ -1,3 +1,4 @@
+package src;
 public class Vector {
     public float x, y; 
 
@@ -14,6 +15,11 @@ public class Vector {
     public Vector(float x, float y) {
         this.x = x;
         this.y = y;
+    }
+
+    public Vector(double x, double y) {
+        this.x = (float) x;
+        this.y = (float) y;
     }
 
     public Vector(Vector v) {

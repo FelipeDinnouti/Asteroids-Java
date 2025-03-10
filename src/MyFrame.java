@@ -1,3 +1,4 @@
+package src;
 import java.awt.*; 
 import java.awt.event.WindowAdapter; 
 import java.awt.event.WindowEvent; 
@@ -26,14 +27,15 @@ public class MyFrame extends Frame {
             } 
         }); 
     }
+
     public void paint(Graphics g) 
     { 
         Rectangle bounds = getBounds();
         Vector window_center = new Vector(bounds.width, bounds.height).divide(2);
         
         // Draw the player
-        int[] x = new int[world.player.vertices.length];
-        int[] y = new int[world.player.vertices.length];
+        int[] x_player_vertices = new int[world.player.vertices.length];
+        int[] y_player_vertices = new int[world.player.vertices.length];
 
         for (int i=0; i<world.player.vertices.length; i++) {
             // Apply rotation and offset to model
@@ -41,13 +43,13 @@ public class MyFrame extends Frame {
             
             transformed = transformed.minus(world.camera_position).plus(window_center);
 
-            x[i] = (int) transformed.x;
-            y[i] = (int) transformed.y;
+            x_player_vertices[i] = (int) transformed.x;
+            y_player_vertices[i] = (int) transformed.y;
         }        
 
         g.setColor(Color.black); 
-        g.drawPolygon(x, y, world.player.vertices.length); 
-        g.fillPolygon(x,y, world.player.vertices.length);
+        g.drawPolygon(x_player_vertices, y_player_vertices, world.player.vertices.length); 
+        g.fillPolygon(x_player_vertices,y_player_vertices, world.player.vertices.length);
 
         // Draw the bullets
         for (int i=0; i<world.bullets.length; i++) {
@@ -63,6 +65,31 @@ public class MyFrame extends Frame {
             
 
             g.drawLine((int) transformed_position.x, (int) transformed_position.y, (int) (direction.x), (int) (direction.y));
+        }
+
+        // Draw the asteroids 
+        g.setColor(Color.GRAY);
+        
+        for (int i=0; i<world.asteroids.length; i++) {
+           Asteroid asteroid = world.asteroids[i];
+
+           if (asteroid==null) continue;
+
+            int asteroid_vertice_count = asteroid.GetVerticeCount();
+
+            int[] x_vertices = new int[asteroid_vertice_count];
+            int[] y_vertices = new int[asteroid_vertice_count];
+
+            for (int n = 0; n<asteroid_vertice_count; n++) {
+                Vector transformed = asteroid.vertices[i].rotate(asteroid.rotation).plus(asteroid.position); // Basic Transform
+                transformed = transformed.minus(world.camera_position).plus(window_center); // Transform to camera position
+    
+                x_vertices[i] = (int) transformed.x;
+                y_vertices[i] = (int) transformed.y;
+            }
+            
+            g.drawPolygon(x_player_vertices, y_vertices, asteroid_vertice_count);
+            g.fillPolygon(x_player_vertices, y_vertices, asteroid_vertice_count);
         }
 
     } 
