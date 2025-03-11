@@ -48,11 +48,9 @@ public class Main {
             // Start the timer again
             world.shotgun_timer.Fire();
 
-            world.CreateBullet(new Vector(world.player.position), world.player.rotation, 0, false);
-            world.CreateBullet(new Vector(world.player.position), world.player.rotation - 0.2f, 0, false);
-            world.CreateBullet(new Vector(world.player.position), world.player.rotation - 0.1f, 0, false);
-            world.CreateBullet(new Vector(world.player.position), world.player.rotation + 0.1f, 0, false);
-            world.CreateBullet(new Vector(world.player.position), world.player.rotation + 0.2f, 0, false);
+            for (float f = -0.3f; f <= 0.3f; f += 0.05f) {
+                world.CreateBullet(new Vector(world.player.position), world.player.rotation + f, 0, false);
+            }
 
             // Pushes the player back
             world.player.velocity = world.player.velocity.minus(player_direction.mult(80.0f));
