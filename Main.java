@@ -1,6 +1,5 @@
 
-import java.util.Arrays;
-
+import src.Asteroid;
 import src.Bullet;
 import src.Entity;
 import src.InputHandler;
@@ -88,6 +87,15 @@ public class Main {
             b.position = b.position.plus(new Vector(0,1).rotate(b.rotation).mult(500.0f*world.delta_time));
         }
 
+        // Update asteroids
+        for (int i = 0; i<world.asteroids.length; i++) {
+            Asteroid asteroid = world.asteroids[i];
+
+            if (asteroid == null) {continue;}
+            
+            asteroid.position = asteroid.position.plus(asteroid.velocity.mult(world.delta_time));
+            asteroid.rotation += asteroid.angular_velocity;
+        }
 
         // Update timers
         world.shoot_timer.Update(world.delta_time);
@@ -111,7 +119,7 @@ public class Main {
 
         // Test
         world.CreateAsteroid(1, null);
-
+        world.CreateAsteroid(1, new Vector(50,50));
 
         while (true) {
             update(world);

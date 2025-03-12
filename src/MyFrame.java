@@ -3,6 +3,9 @@ import java.awt.*;
 import java.awt.event.WindowAdapter; 
 import java.awt.event.WindowEvent; 
 
+import java.util.Arrays;
+
+
 public class MyFrame extends Frame {
     WorldContext world;
 
@@ -81,15 +84,17 @@ public class MyFrame extends Frame {
             int[] y_vertices = new int[asteroid_vertice_count];
 
             for (int n = 0; n<asteroid_vertice_count; n++) {
-                Vector transformed = asteroid.vertices[i].rotate(asteroid.rotation).plus(asteroid.position); // Basic Transform
+                Vector transformed = asteroid.vertices[n].rotate(asteroid.rotation).plus(asteroid.position); // Basic Transform
                 transformed = transformed.minus(world.camera_position).plus(window_center); // Transform to camera position
     
-                x_vertices[i] = (int) transformed.x;
-                y_vertices[i] = (int) transformed.y;
+                x_vertices[n] = (int) transformed.x;
+                y_vertices[n] = (int) transformed.y;
             }
             
-            g.drawPolygon(x_player_vertices, y_vertices, asteroid_vertice_count);
-            g.fillPolygon(x_player_vertices, y_vertices, asteroid_vertice_count);
+            System.out.println("\nAsteroid: \n" + Arrays.toString(x_vertices) + "\n" + Arrays.toString(x_vertices));
+
+            g.drawPolygon(x_vertices, y_vertices, asteroid_vertice_count);
+            g.fillPolygon(x_vertices, y_vertices, asteroid_vertice_count);
         }
 
     } 

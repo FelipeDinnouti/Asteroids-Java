@@ -4,12 +4,16 @@ import java.lang.Math;
 public class Asteroid extends Entity {
     // Level dictates how many times it can be destructed before it disappears, once level reaches 0, it is destroyed (without breaking apart)
     private int vertice_count = 8;
-    private float min_size = 10; // Size is multiplied by level
+    private float min_size = 20; // Size is multiplied by level
     private float min_random_offset = 4;// Also multiplied by level 
     private int level;  
 
+    public float angular_velocity = 0;
+
     public Asteroid(int level) {
         this.level = level;
+
+        this.velocity = new Vector(50,50);
 
         // Create verticies randomly
         Vector[] model = new Vector[vertice_count];
@@ -31,6 +35,10 @@ public class Asteroid extends Entity {
     // Getter and Setter
     public int GetVerticeCount() {
         return this.vertice_count;
+    }
+
+    public void SetPosition(Vector position) {
+        this.position = position;
     }
 
 }

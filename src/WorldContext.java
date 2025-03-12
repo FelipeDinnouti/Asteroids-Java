@@ -27,6 +27,7 @@ public class WorldContext {
 
     public void CreateAsteroid(int level, Vector position) {
         asteroids[asteroid_count] = new Asteroid(level);
+        if (position != null) {asteroids[asteroid_count].SetPosition(position);}
         asteroid_count++;
     }
 
