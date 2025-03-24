@@ -1,6 +1,7 @@
 package src;
 
 public class GeometryMath {
+    // https://bryceboe.com/2006/10/23/line-segment-intersection-algorithm/
     // A delightfully elegant solution to checking intersection between lines
     // By defining ccw (counter clock wise) as determining if the slope of AB is less than the slope of AC, then the three points are listed in clockwise order
     private static boolean ccw(Vector a, Vector b, Vector c) {
@@ -11,9 +12,17 @@ public class GeometryMath {
     }
 
     public static boolean aabb(Vector ra, Vector rb, Vector c) {
-        // Make sure vector A is smaller than vector B
-        rb.x = (ra.x>rb.x) ?  ra.x : rb.x; 
-        rb.y = (ra.y>rb.y) ? ra.y : rb.y;
+        // Make sure vector A is smaller than vector B, by swapping
+        if (ra.x>rb.x) {
+            ra.x = ra.x + rb.x; 
+            rb.x = ra.x - rb.x; 
+            ra.x = ra.x - rb.x; 
+        }
+        if (ra.y>rb.y) {
+            ra.y = ra.y + rb.y; 
+            rb.y = ra.y - rb.y; 
+            ra.y = ra.y - rb.y; 
+        } 
 
         if (((c.x>ra.x) && (c.x<rb.x)) &&  ((c.y>ra.y) && (c.y<rb.y))) return true;
         return false;

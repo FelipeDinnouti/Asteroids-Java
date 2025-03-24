@@ -39,4 +39,25 @@ public class Asteroid extends Entity {
         this.position = position;
     }
 
+    public Vector[] GetBoundingBox() {
+        Vector lowest, highest;
+        lowest = new Vector(9999,9999);
+        highest = new Vector(-9999,-9999);
+
+        Vector[] bounding = {lowest, highest};
+        
+
+        for (int i = 0; i<this.vertices.length; i++) {
+            Vector vertice = this.vertices[i];
+
+            lowest.x = (lowest.x>vertice.x) ? vertice.x : lowest.x;
+            lowest.y = (lowest.y>vertice.y) ? vertice.y : lowest.y;
+
+            highest.x = (highest.x<vertice.x) ? vertice.x : highest.x;
+            highest.y = (highest.y<vertice.y) ? vertice.y : highest.y;
+        }
+        
+        return bounding;
+    }
+
 }

@@ -2,6 +2,7 @@
 import src.Asteroid;
 import src.Bullet;
 import src.Entity;
+import src.GeometryMath;
 import src.InputHandler;
 import src.MyFrame;
 import src.Vector;
@@ -97,6 +98,39 @@ public class Main {
             asteroid.rotation += asteroid.angular_velocity;
         }
 
+        // Resolve bullet collisions with asteroids, 3 nested for loops???
+        for (int i = 0; i<world.bullet_count+1; i++) {
+            Bullet bullet = world.bullets[i];
+            if (bullet==null) continue;
+
+            Vector bullet_tip = new Vector(0,1).rotate(bullet.rotation).mult(bullet.GetLength()).plus(bullet.position);
+
+            // Step 1:  check if the bullet tip or tail lies within asteroid bounding box
+            for (int n = 0; n<world.asteroid_count+1; n++) {
+                Asteroid asteroid = world.asteroids[n];
+                if (asteroid==null) continue;
+
+                Vector[] bounding = asteroid.GetBoundingBox();
+
+
+                // Continues if both tip and tail doesn't lie within bounding box
+                if ((GeometryMath.aabb(bounding[0], bounding[1], bullet.position) == false) && (GeometryMath.aabb(bounding[0], bounding[1], bullet_tip) == false)) continue;
+
+                System.out.println("bounding box");
+
+                // Step 2: Check line intersection for each segment of the asteroid
+                for (int v = 0; v<asteroid.vertices.length; v++) {
+                    Vector a = asteroid.vertices[v];
+                    
+                    int b_index = (v+1>=asteroid.vertices.length) ? 0 : v+1; // Doesn't overflow the array
+                    Vector b = asteroid.vertices[b_index];
+
+                    boolean intersects = GeometryMath.line_intersect(a, b, bullet.position, bullet_tip);
+                    //if (intersects) { System.out.println("no way"); }
+                }
+            }
+        }
+
         // Update timers
         world.shoot_timer.Update(world.delta_time);
         world.shotgun_timer.Update(world.delta_time);
@@ -118,13 +152,17 @@ public class Main {
         world.player.position.y = 0;
 
         // Test
-        world.CreateAsteroid(1, null);
         world.CreateAsteroid(1, new Vector(50,50));
+
+        System.out.println(GeometryMath.aabb(new Vector(10,10), new Vector(0,0), new Vector(5,5)));
+        Vector[] bb =world.asteroids[0].GetBoundingBox();
+        bb[0].print();
+        bb[1].print();
 
         while (true) {
             update(world);
             frame.repaint();
-            Thread.sleep(16);
+            Thread.sleep(16); // default is 16
         }
     }
 }

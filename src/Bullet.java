@@ -28,6 +28,10 @@ public class Bullet extends Entity {
     public void DecreaseLifetime(float delta) {
         this.lifetime -= delta;
     }
+    
+    public float GetLength() {
+        return this.length;
+    }
 
     public String toString() {
         return String.format("Bullet {lifetime: %f}", lifetime);

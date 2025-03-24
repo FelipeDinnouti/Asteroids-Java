@@ -63,7 +63,7 @@ public class MyFrame extends Frame {
             // .minus(world.camera_position).plus(window_center) 
             // This line transforms a vector in global position to local screen position
 
-            Vector direction = new Vector(0,1).rotate(b.rotation).mult(b.length).plus(b.position).minus(world.camera_position).plus(window_center);
+            Vector direction = new Vector(0,1).rotate(b.rotation).mult(b.GetLength()).plus(b.position).minus(world.camera_position).plus(window_center);
             Vector transformed_position = b.position.minus(world.camera_position).plus(window_center);
             
 
@@ -91,7 +91,7 @@ public class MyFrame extends Frame {
                 y_vertices[n] = (int) transformed.y;
             }
             
-            System.out.println("\nAsteroid: \n" + Arrays.toString(x_vertices) + "\n" + Arrays.toString(x_vertices));
+            //System.out.println("\nAsteroid: \n" + Arrays.toString(x_vertices) + "\n" + Arrays.toString(x_vertices));
 
             g.drawPolygon(x_vertices, y_vertices, asteroid_vertice_count);
             g.fillPolygon(x_vertices, y_vertices, asteroid_vertice_count);
