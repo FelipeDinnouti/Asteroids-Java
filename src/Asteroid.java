@@ -13,8 +13,6 @@ public class Asteroid extends Entity {
     public Asteroid(int level) {
         this.level = level;
 
-        this.velocity = new Vector(50,50);
-
         // Create verticies randomly
         Vector[] model = new Vector[vertice_count];
         float spacing = 3.14159f/vertice_count;
